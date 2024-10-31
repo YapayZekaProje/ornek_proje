@@ -2,15 +2,19 @@
 
 public class RaycastDistance : MonoBehaviour
 {
-    public float maxDistance = 100f;             
-    public Transform rayOrigin;                  
+    public float maxDistance = 100f;
+    public Transform rayOrigin;
     RaycastHit hit;
     Pathfinding pathfinding;
+    Player player;
+
 
     private void Start()
     {
         pathfinding = FindObjectOfType<Pathfinding>();
+        player = FindAnyObjectByType<Player>();
     }
+
     private void Update()
     {
 
@@ -28,29 +32,38 @@ public class RaycastDistance : MonoBehaviour
 
             Collider hitCollider = hit.collider;
 
-            if (hitCollider != null) 
+            if (hitCollider != null)
             {
                 int hitLayer = hitCollider.gameObject.layer;
 
-                if (hitLayer == 7 || hitLayer==8 ) 
+                if (hitLayer == 7 || hitLayer == 8)
                 {
-                    if (distance < 1.25f) 
-                    pathfinding.driveable = false; 
+                    if (distance < 8.25f)
+                    {
+                        //  pathfinding.driveable = false;
+                        player.isSlowingDown = true;
+               
+                    }
+
                 }
                 else
                 {
-                    pathfinding.driveable = true;   
+                  //  pathfinding.driveable = true;
+                    player.isAccelerating = true;
                 }
-          
+
             }
         }
         else
         {
-            pathfinding.driveable = true;
-
+            if (player.maxSpeed != player.currentSpeed)
+            {
+                player.isAccelerating = true;
+            }
+            //pathfinding.driveable = true;
             Debug.DrawRay(rayOrigin.position, rayOrigin.forward * maxDistance, Color.green);
         }
-       
+
 
 
     }

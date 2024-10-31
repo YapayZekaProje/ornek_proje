@@ -2,16 +2,39 @@
 using UnityEditor;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using TMPro;
+
 
 public class Player : MonoBehaviour
 {
-    private float speed = 2;
-    private float moveSpeed = 5;
+    public TextMeshProUGUI speedText;
 
+    public float currentSpeed;
+    private float moveSpeed = 5;
+    public float maxSpeed;
+    public float deceleration = 0.2f; // Yavaşlama hızı
+    public float acceleration = 0.5f;  //hizlanma hizi 
+    public bool isSlowingDown = false;
+    public bool isAccelerating = false;
+
+ 
     public void GidilcekYer(Vector3 hedefNoktasi)
     {
         ++hedefNoktasi.y;
-        transform.position = Vector3.MoveTowards(transform.position, hedefNoktasi, speed * Time.deltaTime);
+        if (isAccelerating)
+        {   
+            isSlowingDown=false;
+
+            currentSpeed = Mathf.Min(maxSpeed, currentSpeed + acceleration * Time.deltaTime);
+        }
+
+        else if (isSlowingDown)
+        {
+
+            currentSpeed = Mathf.Max(0, currentSpeed - deceleration * Time.deltaTime);
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, hedefNoktasi, currentSpeed * Time.deltaTime);
 
     }
 
@@ -67,13 +90,33 @@ public class Player : MonoBehaviour
         transform.position = newPosition;
 
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
-            ++speed;
+            ++currentSpeed;
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
-            --speed;
+            --currentSpeed;
+        if(Input.GetKeyDown(KeyCode.Space))
+            isSlowingDown = true;
+        if(Input.GetKeyDown(KeyCode.LeftAlt))
+            isAccelerating = true;
+        SpeedTextUpdate();
+        if (maxSpeed == 0)
+        {
+            isSlowingDown = false;
+        }
+        if (maxSpeed == currentSpeed)
+        {
+            isAccelerating = false;
+        }
     }
 
     private void Update()
     {
         GameKontrol();
+    }
+
+    private void SpeedTextUpdate()
+    {
+
+        speedText.text = (currentSpeed * 10).ToString("F1") + " Km/H";
+
     }
 }

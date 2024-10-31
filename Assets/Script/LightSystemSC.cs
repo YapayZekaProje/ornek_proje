@@ -40,14 +40,14 @@ public class LightSystemSC : MonoBehaviour
     {
         while (true)
         {
-            RedLight();
-            yield return new WaitForSeconds(5f);
-
-            YellowLight();
-            yield return new WaitForSeconds(2f); 
-
             GreenLight();
-            yield return new WaitForSeconds(5f); 
+            yield return new WaitForSeconds(7f);
+          
+            YellowLight();
+            yield return new WaitForSeconds(3f);
+
+            RedLight();
+            yield return new WaitForSeconds(7f);
         }
     }
     public void RedLight()
