@@ -44,7 +44,7 @@ public class LightSystemSC : MonoBehaviour
             yield return new WaitForSeconds(7f);
           
             YellowLight();
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
 
             RedLight();
             yield return new WaitForSeconds(7f);

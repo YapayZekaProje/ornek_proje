@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
         transform.position = newPosition;
 
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
-            ++currentSpeed;
+            ++maxSpeed;
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
             --currentSpeed;
         if(Input.GetKeyDown(KeyCode.Space))

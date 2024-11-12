@@ -28,7 +28,7 @@ public class Grid : MonoBehaviour
 
     private void Update()
     {
-     CreateGrid();
+        CreateGrid();
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)
@@ -81,7 +81,7 @@ public class Grid : MonoBehaviour
                     continue;
                 if (x == 1 && y == -1)
                     continue;
-                if (x == -1 && y == 1) 
+                if (x == -1 && y == 1)
                     continue;
                 int checkX = node.gridX + x;
                 int checkY = node.gridY + y;
@@ -122,12 +122,21 @@ public class Grid : MonoBehaviour
     //}
 
     void OnDrawGizmos()
-{
-    DrawPath();
-}
+    {
+        //   DrawPath();
+        if (path1 != null && path1.Count > 0)
+        {
+            // path1'deki her düğüm için siyah küpler çiz
+            foreach (Node node in path1)
+            {
+                Gizmos.color = Color.black;
+                Gizmos.DrawCube(node.WorldPosition, Vector3.one * (NodeDinameter - 0.1f));
+            }
+        }
+    }
 
-void DrawPath()
-{
+    void DrawPath()
+    {
         if (grid != null)
         {
             Node PlayerNode = NodeFromWorldPoint(player.position);
@@ -146,13 +155,13 @@ void DrawPath()
         }
         // Eğer path1 boş veya null değilse
         if (path1 != null && path1.Count > 0)
-    {
-        // path1'deki her düğüm için siyah küpler çiz
-        foreach (Node node in path1)
         {
-            Gizmos.color = Color.black;
-            Gizmos.DrawCube(node.WorldPosition, Vector3.one * (NodeDinameter - 0.1f));
+            // path1'deki her düğüm için siyah küpler çiz
+            foreach (Node node in path1)
+            {
+                Gizmos.color = Color.black;
+                Gizmos.DrawCube(node.WorldPosition, Vector3.one * (NodeDinameter - 0.1f));
+            }
         }
     }
-}
 }
