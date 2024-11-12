@@ -123,7 +123,7 @@ public class Grid : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        //   DrawPath();
+       //   DrawPath();
         if (path1 != null && path1.Count > 0)
         {
             // path1'deki her düğüm için siyah küpler çiz
