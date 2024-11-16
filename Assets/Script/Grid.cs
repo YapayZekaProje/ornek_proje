@@ -124,15 +124,7 @@ public class Grid : MonoBehaviour
     void OnDrawGizmos()
     {
        //   DrawPath();
-        if (path1 != null && path1.Count > 0)
-        {
-            // path1'deki her düğüm için siyah küpler çiz
-            foreach (Node node in path1)
-            {
-                Gizmos.color = Color.black;
-                Gizmos.DrawCube(node.WorldPosition, Vector3.one * (NodeDinameter - 0.1f));
-            }
-        }
+       
     }
 
     void DrawPath()
@@ -154,6 +146,19 @@ public class Grid : MonoBehaviour
             }
         }
         // Eğer path1 boş veya null değilse
+        if (path1 != null && path1.Count > 0)
+        {
+            // path1'deki her düğüm için siyah küpler çiz
+            foreach (Node node in path1)
+            {
+                Gizmos.color = Color.black;
+                Gizmos.DrawCube(node.WorldPosition, Vector3.one * (NodeDinameter - 0.1f));
+            }
+        }
+    }
+
+    void DrawOnlyPath()
+    {
         if (path1 != null && path1.Count > 0)
         {
             // path1'deki her düğüm için siyah küpler çiz
