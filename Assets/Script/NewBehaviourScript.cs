@@ -15,7 +15,6 @@ public class NewBehaviourScript : MonoBehaviour
         if (speedText.text == "Yagmur Kapali")
         {
             rainParticleSystem.Play();
-        Debug.Log("calistim");
             speedText.text = "Yagmur Acik";
         }
         else

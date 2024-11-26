@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using TMPro;
+using Unity.VisualScripting;
 
 
 public class Player : MonoBehaviour
@@ -15,15 +16,15 @@ public class Player : MonoBehaviour
     public float deceleration = 0.2f; // Yavaşlama hızı
     public float acceleration = 0.5f;  //hizlanma hizi 
     public bool isSlowingDown = false;
-    public bool isAccelerating = false;
+    public bool isAccelerating = true;
 
- 
+
     public void GidilcekYer(Vector3 hedefNoktasi)
     {
         ++hedefNoktasi.y;
         if (isAccelerating)
-        {   
-            isSlowingDown=false;
+        {
+            isSlowingDown = false;
 
             currentSpeed = Mathf.Min(maxSpeed, currentSpeed + acceleration * Time.deltaTime);
         }
@@ -90,22 +91,35 @@ public class Player : MonoBehaviour
         transform.position = newPosition;
 
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
-            ++maxSpeed;
+            ++Time.timeScale;
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
-            --currentSpeed;
-        if(Input.GetKeyDown(KeyCode.Space))
-            isSlowingDown = true;
-        if(Input.GetKeyDown(KeyCode.LeftAlt))
-            isAccelerating = true;
+            --Time.timeScale    ;
+ 
+
+
         SpeedTextUpdate();
-        if (maxSpeed == 0)
-        {
-            isSlowingDown = false;
-        }
+
+        //if (maxSpeed == 0)
+        //{
+        //    isSlowingDown = false;
+        //}
         if (maxSpeed == currentSpeed)
         {
             isAccelerating = false;
         }
+        if (maxSpeed != currentSpeed)
+        {
+
+            if (isSlowingDown)
+            {
+            }
+            else
+            {
+                isAccelerating = true;
+            }
+        }
+
+
     }
 
     private void Update()

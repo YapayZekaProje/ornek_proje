@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LightSystemSC : MonoBehaviour
 {
+  public  bool red;
+
     GameObject parentObject;
     GameObject redLight, yellowLight, greenLight;
 
@@ -55,6 +57,7 @@ public class LightSystemSC : MonoBehaviour
         ResetLights();
         redRenderer.material.EnableKeyword("_EMISSION");
         objCollider.enabled = true;
+        red = true;
     }
 
     public void YellowLight()
@@ -66,8 +69,8 @@ public class LightSystemSC : MonoBehaviour
 
     public void GreenLight()
     {
-    
-        objCollider.enabled = false;
+        red = false;
+  //      objCollider.enabled = false;
         ResetLights();
         greenRenderer.material.EnableKeyword("_EMISSION");
     

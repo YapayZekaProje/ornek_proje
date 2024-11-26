@@ -6,7 +6,7 @@ public class crosswalksc : MonoBehaviour
 {
     GameObject nesne;
 
-    int x = 0;
+   public int x = 0;
     private void OnTriggerEnter(Collider other)
     {
 
