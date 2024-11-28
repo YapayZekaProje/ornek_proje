@@ -30,6 +30,10 @@ public class RaycastDistance : MonoBehaviour
 
         RaycastHit[] hits = Physics.RaycastAll(ray, maxDistance, ~0, QueryTriggerInteraction.Collide); //rayin carptigi seyleri tut
 
+        if (hits.Length == 0)
+        {
+            player.isAccelerating = true;
+        }
 
         foreach (RaycastHit hit in hits)
         {
@@ -43,6 +47,8 @@ public class RaycastDistance : MonoBehaviour
             LightSystemSC lamba = go.GetComponent<LightSystemSC>();
 
             crosswalksc script = go.GetComponent<crosswalksc>();
+            
+    
 
             if (lamba != null)
             {
