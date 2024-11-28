@@ -9,9 +9,7 @@ public class RaycastDistance : MonoBehaviour
     RaycastHit hit;
     Pathfinding pathfinding;
     Player player;
-    public bool yolBos1 = true;
-    public bool yolBos2 = true;
-    public bool yolBos3 = true;
+
 
     private void Start()
     {
@@ -50,59 +48,68 @@ public class RaycastDistance : MonoBehaviour
             {
                 if (lamba.red == false)
                 {
-                    yolBos1 = true;
-                    Debug.Log("menzilde yesil");
+                    Debug.Log(" yesil");
+
                 }
                 else
                 {
-                    yolBos1 = false;
+                    Debug.Log("kirmizi");
+                    if (distance < 8.25f)
+                    {
+                        player.isSlowingDown = true;
+
+                    }
+                    break;
                 }
 
             }
-
-
             if (script != null)
             {
                 if (script.x == 0)
                 {
-                    yolBos2 = true;
-                    Debug.Log("yaya yok bir");
+                    Debug.Log("yaya yok ");
                 }
                 else
                 {
-                    yolBos2 = false;
-                }
-
-            }
-            else
-            {
-                //yolBos2 = true;
-
-            }
-            if (hitLayer == 7 || hitLayer == 8)
-            {
-                if (distance < 8.25f)
-                {
+                    if (distance < 8.25f)
+                    {
+                        Debug.Log("yaya var");
                         player.isSlowingDown = true;
-                        yolBos3 = false;
+
+                    }
+                    break;
                 }
 
             }
-            else
+            else if (script == null)
             {
-
-
-                if (player.currentSpeed < player.maxSpeed && yolBos1 && yolBos2 && yolBos3)
-                {
-                    player.isAccelerating = true;
-                }
-
-               
+                Debug.Log("patladi");
+                continue;
             }
 
-            yolBos1 = true;
-            yolBos2 = true;
-            yolBos3 = true;
+            Debug.Log("hizlandim");
+            if (player.currentSpeed < player.maxSpeed)
+            {
+                player.isAccelerating = true;
+            }
+
+            //if (hitLayer == 7 || hitLayer == 8)
+            //{
+            //if (distance < 8.25f)
+            //{
+            //    player.isSlowingDown = true;
+
+            //}
+            //}
+            //else
+            //{
+
+            //    if (player.currentSpeed < player.maxSpeed && yolBos1 && yolBos2 )
+            //    {
+            //        player.isAccelerating = true;
+            //    }
+
+            //}
 
             Debug.DrawRay(rayOrigin.position, rayOrigin.forward * maxDistance, Color.green);
 
@@ -146,7 +153,7 @@ public class RaycastDistance : MonoBehaviour
             //}
             #endregion
 
-
         }
+        
     }
 }

@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 53625450}
   - component: {fileID: 53625451}
   - component: {fileID: 53625452}
+  - component: {fileID: 53625453}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -181,9 +182,24 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53625449}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2834dc9c75264ad408f69a5af4640b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seeker: {fileID: 1963752580}
+  target: {fileID: 1848249559}
+  driveable: 1
+--- !u!114 &53625453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53625449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da8d24d7d0df5143a7a28db2e54459f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   seeker: {fileID: 1963752580}
@@ -2709,6 +2725,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDistance: 100
   rayOrigin: {fileID: 1963752580}
+  yolBos1: 1
+  yolBos2: 1
+  yolBos3: 1
 --- !u!1 &2031691632
 GameObject:
   m_ObjectHideFlags: 0
