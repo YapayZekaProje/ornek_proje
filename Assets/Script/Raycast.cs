@@ -10,6 +10,9 @@ public class RaycastDistance : MonoBehaviour
     Pathfinding pathfinding;
     Player player;
 
+    float nullTimer = 0f; // null olan script için bir zamanlayıcı
+    float nullThreshold = 8f; // "null" süresi  saniye olarak ayarlanir
+
 
     private void Start()
     {
@@ -67,7 +70,6 @@ public class RaycastDistance : MonoBehaviour
                     }
                     break;
                 }
-
             }
             if (script != null)
             {
@@ -89,8 +91,20 @@ public class RaycastDistance : MonoBehaviour
             }
             else if (script == null)
             {
-                Debug.Log("patladi");
-                continue;
+                nullTimer += Time.deltaTime; // null olduğunda zamanlayıcıyı artır
+           
+                if (nullTimer >= nullThreshold)
+                {
+                    
+                    Debug.LogWarning("yaya yok (null bekleme süresi doldu)");
+                    player.isAccelerating = true; // hızlan
+                    nullTimer = 0f; // zamanlayıcıyı sıfırla
+
+                }
+                else
+                {
+                    continue;
+                }
             }
 
             Debug.Log("hizlandim");

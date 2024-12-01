@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
@@ -8,21 +9,33 @@ public class Pathfinding : MonoBehaviour
     public Transform seeker, target;
     Player player;
     public bool driveable = true;
-
+    Vector3 baslangicKonumu;
     private void Awake()
     {
         grid = GetComponent<Grid>();
         player = FindObjectOfType<Player>();  // Player'ı bul
 
+        baslangicKonumu = player.transform.position;
+
     }
     void GoToTarget()
     {
+        if (Vector3.Distance(player.transform.position, target.position) <= 3f)
+        {
+            Debug.Log("tp atiyom");
+            player.transform.position = baslangicKonumu;
+
+        }
         if (grid.path1 != null && grid.path1.Count > 0 && driveable)
         {
 
             Vector3 hedefNokta = grid.path1[0].WorldPosition;  // İlk path noktası 
             player.LookToTarget(hedefNokta);
+
+            //     Debug.Log(Vector3.Distance(player.transform.position, target.position));  // hedefle kus ucumu mesafe olcer 
+
             player.GidilcekYer(hedefNokta);  // Hedef noktayı Player'a gönder
+
         }
     }
 
@@ -76,7 +89,6 @@ public class Pathfinding : MonoBehaviour
                     if (!openSet.Contains(neighbour))
                         openSet.Add(neighbour);
 
-
                 }
 
             }
@@ -97,7 +109,7 @@ public class Pathfinding : MonoBehaviour
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }
-        path.Reverse(); 
+        path.Reverse();
         grid.path1 = path;
 
     }
