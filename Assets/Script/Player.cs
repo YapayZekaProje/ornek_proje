@@ -128,7 +128,7 @@ public class Player : MonoBehaviour
 
         if (currentSpeed == maxSpeed)
         {
-            gazAudioSource.pitch = Mathf.Lerp(gazAudioSource.pitch, 1.25f, currentSpeed / maxSpeed);
+            gazAudioSource.pitch = Mathf.Lerp(gazAudioSource.pitch, Random.Range(1.5f, 1.7f), currentSpeed / maxSpeed);
         }
        else if (currentSpeed != 0)
         {
