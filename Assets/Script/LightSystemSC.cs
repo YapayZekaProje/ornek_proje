@@ -56,7 +56,6 @@ public class LightSystemSC : MonoBehaviour
     {
         ResetLights();
         redRenderer.material.EnableKeyword("_EMISSION");
-        objCollider.enabled = true;
         red = true;
     }
 

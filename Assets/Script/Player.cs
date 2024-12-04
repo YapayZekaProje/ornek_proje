@@ -18,10 +18,17 @@ public class Player : MonoBehaviour
     public bool isSlowingDown = false;
     public bool isAccelerating = true;
 
+    private AudioSource gazAudioSource;
+
+    private void Start()
+    {
+        gazAudioSource = GetComponent<AudioSource>();
+
+    }
 
     public void GidilcekYer(Vector3 hedefNoktasi)
     {
-        ++hedefNoktasi.y;
+        ++hedefNoktasi.y ;
         if (isAccelerating)
         {
             isSlowingDown = false;
@@ -93,7 +100,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
             ++Time.timeScale;
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
-            --Time.timeScale    ;
+            Time.timeScale   =0 ;
  
 
 
@@ -119,6 +126,26 @@ public class Player : MonoBehaviour
             }
         }
 
+        if (currentSpeed == maxSpeed)
+        {
+            gazAudioSource.pitch = Mathf.Lerp(gazAudioSource.pitch, 1.25f, currentSpeed / maxSpeed);
+        }
+       else if (currentSpeed != 0)
+        {
+          gazAudioSource.pitch = Mathf.Lerp(0.42f, 1.7f, currentSpeed / maxSpeed);
+
+            if (!gazAudioSource.isPlaying)
+            {
+                gazAudioSource.Play();
+            }
+        }
+         
+        else
+        {
+        gazAudioSource.pitch = Mathf.Lerp(0.42f, 1.7f, currentSpeed / maxSpeed);
+            gazAudioSource.volume = 0.2f;
+
+        }
 
     }
 
@@ -129,8 +156,8 @@ public class Player : MonoBehaviour
 
     private void SpeedTextUpdate()
     {
-
         speedText.text = (currentSpeed * 10).ToString("F1") + " Km/H";
-
     }
+
+
 }

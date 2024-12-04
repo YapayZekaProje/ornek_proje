@@ -1,4 +1,5 @@
 ﻿using Unity.Loading;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.LowLevel;
 
@@ -7,7 +8,6 @@ public class RaycastDistance : MonoBehaviour
     public float maxDistance;
     public Transform rayOrigin;
     RaycastHit hit;
-    Pathfinding pathfinding;
     Player player;
 
     float nullTimer = 0f; // null olan script için bir zamanlayıcı
@@ -16,7 +16,6 @@ public class RaycastDistance : MonoBehaviour
 
     private void Start()
     {
-        pathfinding = FindObjectOfType<Pathfinding>();
         player = FindAnyObjectByType<Player>();
     }
 
@@ -30,17 +29,30 @@ public class RaycastDistance : MonoBehaviour
     private void StartRaycast()
     {
         Ray ray = new Ray(rayOrigin.position, rayOrigin.forward);   //rayi firlat
+        Debug.DrawRay(rayOrigin.position, rayOrigin.forward * maxDistance, Color.green);
 
         RaycastHit[] hits = Physics.RaycastAll(ray, maxDistance, ~0, QueryTriggerInteraction.Collide); //rayin carptigi seyleri tut
 
-        if (hits.Length == 0)
+        if (hits.Length==0)
         {
-            player.isAccelerating = true;
+             
+                nullTimer += Time.deltaTime; // null olduğunda zamanlayıcıyı artır
+
+                if (nullTimer >= nullThreshold)
+                {
+
+                    Debug.LogWarning("yaya yok (null bekleme süresi doldu)");
+                    player.isAccelerating = true; // hızlan
+                    nullTimer = 0f; // zamanlayıcıyı sıfırla
+
+                }
+           
+            
         }
+
 
         foreach (RaycastHit hit in hits)
         {
-
             float distance = hit.distance;
 
             int hitLayer = hit.collider.gameObject.layer;
@@ -50,8 +62,6 @@ public class RaycastDistance : MonoBehaviour
             LightSystemSC lamba = go.GetComponent<LightSystemSC>();
 
             crosswalksc script = go.GetComponent<crosswalksc>();
-            
-    
 
             if (lamba != null)
             {
@@ -63,14 +73,16 @@ public class RaycastDistance : MonoBehaviour
                 else
                 {
                     Debug.Log("kirmizi");
-                    if (distance < 8.25f)
+                    if (distance < 10f)
                     {
+                        player.isAccelerating = false;
                         player.isSlowingDown = true;
 
                     }
                     break;
                 }
             }
+         
             if (script != null)
             {
                 if (script.x == 0)
@@ -79,33 +91,18 @@ public class RaycastDistance : MonoBehaviour
                 }
                 else
                 {
-                    if (distance < 8.25f)
+                    if (distance < 10f)
                     {
                         Debug.Log("yaya var");
+                        player.isAccelerating = false;
                         player.isSlowingDown = true;
-
+                        break;
                     }
-                    break;
                 }
 
             }
-            else if (script == null)
-            {
-                nullTimer += Time.deltaTime; // null olduğunda zamanlayıcıyı artır
-           
-                if (nullTimer >= nullThreshold)
-                {
-                    
-                    Debug.LogWarning("yaya yok (null bekleme süresi doldu)");
-                    player.isAccelerating = true; // hızlan
-                    nullTimer = 0f; // zamanlayıcıyı sıfırla
+            
 
-                }
-                else
-                {
-                    continue;
-                }
-            }
 
             Debug.Log("hizlandim");
             if (player.currentSpeed < player.maxSpeed)
@@ -131,7 +128,6 @@ public class RaycastDistance : MonoBehaviour
 
             //}
 
-            Debug.DrawRay(rayOrigin.position, rayOrigin.forward * maxDistance, Color.green);
 
             #region Eski raycast
             //if (Physics.Raycast(ray, out hit, maxDistance))
@@ -174,6 +170,6 @@ public class RaycastDistance : MonoBehaviour
             #endregion
 
         }
-        
+
     }
 }

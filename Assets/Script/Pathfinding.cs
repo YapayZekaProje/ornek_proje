@@ -10,6 +10,7 @@ public class Pathfinding : MonoBehaviour
     Player player;
     public bool driveable = true;
     Vector3 baslangicKonumu;
+    float kusUcumuMesafe;
     private void Awake()
     {
         grid = GetComponent<Grid>();
@@ -20,9 +21,9 @@ public class Pathfinding : MonoBehaviour
     }
     void GoToTarget()
     {
-        if (Vector3.Distance(player.transform.position, target.position) <= 3f)
+        kusUcumuMesafe = Vector3.Distance(player.transform.position, target.position);
+        if (kusUcumuMesafe<=4f)
         {
-            Debug.Log("tp atiyom");
             player.transform.position = baslangicKonumu;
 
         }

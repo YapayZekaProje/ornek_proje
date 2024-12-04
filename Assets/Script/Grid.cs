@@ -123,8 +123,8 @@ public class Grid : MonoBehaviour
 
     void OnDrawGizmos()
     {
-   //     DrawPath();
-       // DrawOnlyPath();
+      //  DrawPath();
+   //    DrawOnlyPath();
     }
 
     void DrawPath()
