@@ -11,6 +11,7 @@ public class Pathfinding : MonoBehaviour
     public bool driveable = true;
     Vector3 baslangicKonumu;
     float kusUcumuMesafe;
+
     private void Awake()
     {
         grid = GetComponent<Grid>();
@@ -24,6 +25,7 @@ public class Pathfinding : MonoBehaviour
         kusUcumuMesafe = Vector3.Distance(player.transform.position, target.position);
         if (kusUcumuMesafe<=4f)
         {
+            Debug.LogWarning("tp attim");
             player.transform.position = baslangicKonumu;
 
         }
@@ -57,6 +59,7 @@ public class Pathfinding : MonoBehaviour
         List<Node> closedSet = new List<Node>();
 
         openSet.Add(startNode);
+
         while (openSet.Count > 0)
         {
             Node currentNode = openSet[0];
@@ -70,34 +73,72 @@ public class Pathfinding : MonoBehaviour
 
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
-            if (targetNode == currentNode)
+
+            if (currentNode == targetNode)
             {
                 RetracePath(startNode, targetNode);
                 return;
             }
+
             foreach (Node neighbour in grid.GetNeighbours(currentNode))
             {
                 if (!neighbour.Walkable || closedSet.Contains(neighbour))
                 {
                     continue;
                 }
+
+                // Kavşak kontrolü
+                if (!currentNode.kavsak && !neighbour.kavsak)
+                {
+                    // Yön kontrolü
+                    if (currentNode.gridY < neighbour.gridY && !currentNode.right) // Yukarı hareket (right == true)
+                    {
+                        continue;
+                    }
+                    if (currentNode.gridX < neighbour.gridX && !currentNode.right) // Sağa hareket (right == true)
+                    {
+                        continue;
+                    }
+                    if (currentNode.gridY > neighbour.gridY && !currentNode.left) // Aşağı hareket (left == true)
+                    {
+                        continue;
+                    }
+                    if (currentNode.gridX > neighbour.gridX && !currentNode.left) // Sola hareket (left == true)
+                    {
+                        continue;
+                    }
+                }
+
+                // Right'tan direkt Left'e veya Left'ten direkt Right'a geçişi engelle
+                if (currentNode.right && neighbour.left && !neighbour.kavsak)
+                {
+                    continue;
+                }
+                if (currentNode.left && neighbour.right && !neighbour.kavsak)
+                {
+                    continue;
+                }
+
+                // Hareket maliyetini hesapla ve komşuyu ekle
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
                 if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                 {
                     neighbour.gCost = newMovementCostToNeighbour;
                     neighbour.hCost = GetDistance(neighbour, targetNode);
                     neighbour.parent = currentNode;
+
                     if (!openSet.Contains(neighbour))
                         openSet.Add(neighbour);
-
                 }
-
             }
-
         }
 
+        // Yol bulunamadıysa hata mesajı
+        Debug.LogWarning("Path not found!");
     }
 
+
+  
 
 
     void RetracePath(Node startNode, Node endNode)
@@ -112,8 +153,8 @@ public class Pathfinding : MonoBehaviour
         }
         path.Reverse();
         grid.path1 = path;
-
     }
+
 
 
     int GetDistance(Node nodeA, Node nodeB)

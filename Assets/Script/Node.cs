@@ -11,6 +11,10 @@ public class Node
     public int gridX, gridY;
     public int gCost, hCost;
 
+    public bool right;
+    public bool left;
+    public bool kavsak;
+
     public int fCost
     {
         get
@@ -29,6 +33,6 @@ public class Node
         WorldPosition = worldPosition;
     }
 
-
+    
 
 }
